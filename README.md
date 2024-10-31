@@ -1,5 +1,7 @@
 # workingpaper_czech_psp_speeches
-Code repository of our working paper "Measuring Ideological Stigma: Sentiment Analysis of Left-Wing and Working Class Issues in Czech Post-Communist Parliamentary Debates" with Jan Vondráček, Vojtěch Pohanka and Tomáš Kremla.
+Code repository of our working paper "Perceptions of Left and Right in Postcommunism: The Development of Political Discourse in the Czech Parliament" with Jan Vondráček, Vojtěch Pohanka and Tomáš Kremla.
 We will publish and continously update all the code we use to get the data, wrangle it and analyze it. We aim to have a comprehensive start-to-end repository where anyone can get exactly the same data as we and run the same analyses.
-Any mistakes reported are more than welcome! That´s the point of open science, so we can catch possible mistakes, be open about them a fix them promptly. Will contain Python code to scrape the parliamentary website, R code to wrangle the data,
-R code to pinpoint and extract the relevant textual data, Python code to analyse the sentiment and topics in this textual data, and fianlly R code again for modelling the final Time-Series Cross Section data.
+Any mistakes reported are more than welcome! That´s the point of open science, so we can catch possible mistakes, be open about them a fix them promptly. 
+kwic_textual_data_extract.R has the R code to use our dataset (available here: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/FOQUZF) to extract references and the context around them using the quanteda package
+Translate(Opus-MT).ipynb has the python code to machine translate said references using the Opus-MT model from the University of Helsinki.
+Sentiment(PolDEBATE).ipynb has the python code to classify the texts using the Political DEBATE model by Burnham et al. (2024)
