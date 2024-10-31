@@ -26,3 +26,6 @@ We welcome community feedback and reports of any errors! Thats the spirit of ope
 
   contains the python code to classify the texts using the Uses Political DEBATE model by Burnham et al. (2024) https://huggingface.co/mlburnham/Political_DEBATE_large_v1.0
 
+## Current state
+
+Testing version of the streamline, example with basic term extraction of "green" (as in green deal)
