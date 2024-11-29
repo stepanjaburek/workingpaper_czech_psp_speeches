@@ -22,10 +22,11 @@ We welcome community feedback and reports of any errors! Thats the spirit of ope
 
   contains the python code to machine translate the texts using the Opus-MT model from the Language Technology Research Group at the University of Helsinki https://huggingface.co/Helsinki-NLP/opus-mt-en-mt and to classify them using the Political DEBATE model by Burnham et al. (2024) https://huggingface.co/mlburnham/Political_DEBATE_large_v1.0.
 
-3. Visualisation and statistical analysis (Salience_base-script.R)
+3. Visualisation and statistical analysis (Salience_base_script.R)
+
    Work in progress
 
 
 ## Current state
 
-Latest version of the code streamline for outputs that will be presennted on the New Frontiers in Social Sciences conference.
+Latest version of the code streamline for outputs that will be presented at the New Frontiers in Social Sciences conference.
