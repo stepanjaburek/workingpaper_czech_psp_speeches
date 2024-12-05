@@ -2,7 +2,7 @@
 
 ## Working Paper Code Repository
 
-With paper co-authors: Jan Vondráček, Vojtěch Pohanka, and Tomáš Kremla 
+Paper co-authors: Štěpán Jabůrek, Jan Vondráček, Vojtěch Pohanka, and Tomáš Kremla 
 
 
 ## Repository Purpose
@@ -14,17 +14,27 @@ Contain all code for data collection, wrangling, machine translation, classifica
 We welcome community feedback and reports of any errors! Thats the spirit of open science!
 
 ## Current Repository Contents
-1. Text Extraction (Keywords_in_context.R)
+**1. Text Extraction**
 
-  contains the R code to extract references and the context around them using the quanteda package.
+    keywords_in_context.R
 
-2. Translation and Automated Sentiment analysis(Streamline_Translation_Sentiment.ipynb)
+**2. Translation and Sentiment analysis**
 
-  contains the python code to machine translate the texts using the Opus-MT model from the Language Technology Research Group at the University of Helsinki https://huggingface.co/Helsinki-NLP/opus-mt-en-mt and to classify them using the Political DEBATE model by Burnham et al. (2024) https://huggingface.co/mlburnham/Political_DEBATE_large_v1.0.
+     streamline_translation_sentiment.ipynb
 
-3. Visualisation and statistical analysis (Salience_base_script.R)
+**3. Visualisation**
+  
+    salience_graphs.R
 
-   Work in progress
+    sentiment_graphs.R
+
+**4. Statistical analysis**
+
+     spline_sentiment_modeling.R
+
+     model_comparison.R
+
+**5. Work in progress**
 
 
 ## Current state
