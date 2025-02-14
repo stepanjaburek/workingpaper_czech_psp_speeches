@@ -24,15 +24,13 @@ We welcome community feedback and reports of any errors! Thats the spirit of ope
 
 **3. Visualisation**
   
-    salience_graphs.R
-
-    sentiment_graphs.R
+    total_graphs.R
+    
+    spline_graphs.R
 
 **4. Statistical analysis**
 
-     spline_sentiment_modeling.R
-
-     model_comparison.R
+     yearly_and_indiv_graphs_models.R
 
 **5. Work in progress**
 
