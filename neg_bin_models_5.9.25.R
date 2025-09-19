@@ -10,6 +10,9 @@ library(MASS)
 #---------------------------------
 data<-fread("~/Documents/czech_psp_data/ideology_data.csv")
 
+
+# group by party/month
+
 data_month <- data %>%
   group_by(wing,month) %>% 
   reframe(
@@ -31,12 +34,23 @@ data_month <- data %>%
   ) %>% 
   filter(wing!= "Other" & wing != "New_Parties")
 
-data_month <- na.omit(data_month)
 
 
-data_month$right_wing <- ifelse(data_month$wing == "Right_Wing", 1,0)
-data_month$right_wing <- as.factor(data_month$right_wing)
-data_month$log_monthly_word_count = log(data_month$monthly_word_count)
+data_month$right_wing <- ifelse(data_month$wing == "Right_Wing", 1,0) # binarize wing for visuals
+data_month$right_wing <- as.factor(data_month$right_wing) # as factor
+data_month$log_monthly_word_count = log(data_month$monthly_word_count) # prepare the offset variable
+
+data_month_clean <- na.omit(data_month) # remove rows with missing data - we have missing Public Opinion before 2005 and missing Inflation before 1995
+
+
+
+
+
+#---------------------------------------
+# Self salience models
+#.------------------
+
+# full model, missing data
 
 mod.self <- glmmTMB(
  in_ideology_mentions ~ lag_quarterly_inflation +  lag_public_opinion + 
@@ -56,7 +70,50 @@ eff <- ggpredict(mod.self,
 eff %>% plot()
 
 
+# clean model without variables with missing values
+mod.self.2 <- glmmTMB(
+ in_ideology_mentions ~  election_period +  government +
+   right_wing   +
+   + offset(log_monthly_word_count),
 
+  family = nbinom2(),
+  data = data_month
+)
+summary(mod.self.2)
+
+
+eff <- ggpredict(mod.self.2,  
+  terms = list("right_wing" = seq(0, 1, 1)))
+
+eff %>% plot()
+
+
+# model without public opinion but with inflation
+
+mod.self.3 <- glmmTMB(
+ in_ideology_mentions ~ lag_quarterly_inflation + election_period +  government +
+   right_wing   +
+   + offset(log_monthly_word_count),
+
+  family = nbinom2(),
+  data = data_month
+)
+summary(mod.self.3)
+
+
+eff <- ggpredict(mod.self.3,  
+  terms = list("right_wing" = seq(0, 1, 1))
+)
+
+eff %>% 
+  plot()
+
+
+#---------------------------------------
+# Out salience models
+#.------------------
+
+# full model, missing data
 
 mod.other <- glmmTMB(
  out_ideology_mentions ~ lag_quarterly_inflation +  lag_public_opinion + 
@@ -71,6 +128,51 @@ summary(mod.other)
 
 
 eff <- ggpredict(mod.other,  
+  terms = list("right_wing" = seq(0, 1, 1))
+)
+
+eff %>% 
+  plot()
+
+
+
+
+# clean model without variables with missing values
+
+mod.other.2 <- glmmTMB(
+ out_ideology_mentions ~ election_period +  government +
+   right_wing   +
+   + offset(log_monthly_word_count),
+
+  family = nbinom2(),
+  data = data_month
+)
+summary(mod.other.2)
+
+
+eff <- ggpredict(mod.other.2,  
+  terms = list("right_wing" = seq(0, 1, 1))
+)
+
+eff %>% 
+  plot()
+
+
+
+# model without public opinion but with inflation
+
+mod.other.3 <- glmmTMB(
+ out_ideology_mentions ~ lag_quarterly_inflation + election_period +  government +
+   right_wing   +
+   + offset(log_monthly_word_count),
+
+  family = nbinom2(),
+  data = data_month
+)
+summary(mod.other.3)
+
+
+eff <- ggpredict(mod.other.3,  
   terms = list("right_wing" = seq(0, 1, 1))
 )
 
