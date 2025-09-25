@@ -14,8 +14,8 @@ library(cmdstanr)
 
 #--------------------------------------------
 # Data
-self_sentiment <- read.csv("self_sentiment.csv")
-out_sentiment<- read.csv("out_sentiment.csv")
+self_sentiment <- read.csv("/Users/stepanjaburek/Documents/czech_psp_data/self_sentiment.csv")
+out_sentiment<- read.csv("/Users/stepanjaburek/Documents/czech_psp_data/out_sentiment.csv")
 
 
 #-------------------------------------------
@@ -24,15 +24,14 @@ out_sentiment$sentiment_ord <- as.factor(out_sentiment$sentiment_ord)
 
 
 
-self_sentiment <- na.omit(self_sentiment)
+out_sentiment <- na.omit(out_sentiment)
 # Multilevel/hierarchical model
 mod.ord.out <- clmm(
   sentiment_ord ~  lag_public_opinion +  lag_quarterly_inflation.y +
     government     + election_period +
-    right_wing +
-    (1|speaker), # random effects for cluster variables
+    right_wing , # random effects for cluster variables
    link = "logit",
-  data = out_sentiment)
+  data = self_sentiment)
 
 summary(mod.ord.out)
 
@@ -60,3 +59,31 @@ mod.ord.self <- clmm(
   data = self_sentiment)
 
 summary(mod.ord.self)
+
+
+m <- glm(sentiment ~  lag_public_opinion +  lag_quarterly_inflation.y +
+    government   + election_period +
+    right_wing, data = out_sentiment, family = binomial)
+
+summary(m)
+
+                   #       outcome,           # Name of outcome: character
+                      #    treatment,         # Name of treatment: character
+                     #     binary,            # Name of variable for reclassification: character
+
+results <- misclass_sens(
+  dat = out_sentiment,
+  outcome = "sentiment",  
+  treatment = "right_wing", 
+  binary = "sentiment", 
+  nsims = 100,
+  tol = 0.01,
+  m = m,
+  R_vect = seq(0.01, 0.5, by = 0.01)
+)
+
+
+misclass_sens_plot(results, 
+                   m, 
+                   treatment = 'right_wing') +
+  coord_cartesian(ylim = c(-20,20))

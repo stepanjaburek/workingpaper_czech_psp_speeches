@@ -6,9 +6,46 @@ library(marginaleffects)# optional
 library(flexplot) # optional
 library(texreg) # optional
 library(MASS)
+library(stargazer)
 
 #---------------------------------
 data<-fread("~/Documents/czech_psp_data/ideology_data.csv")
+
+
+data <- data %>% 
+  mutate(public_opinion = public_left - public_right)
+
+data$year <- as.numeric(data$year)
+df_desc <- 
+  data %>%
+  dplyr::select(year,
+       chamber,
+       government,
+       quarterly_inflation.x,
+       word_count,
+       public_left,
+       public_right,
+       public_opinion,
+       election_period,
+       left_mentions,
+      right_mentions,
+      in_ideology_mentions,
+      out_ideology_mentions
+    ) %>%
+  as.data.frame()
+
+stargazer(df_desc,
+          summary = T,
+          header = F,
+          iqr = F, median = T, min.max = T,
+          type = "latex",
+          title = "Descriptive statitics")
+
+df$convicted<-as.numeric(df$convicted)
+cor.test(df$convicted, df$Prop_Nazi_Judge_Educated_1)
+
+
+
 
 
 # group by party/month
@@ -34,6 +71,35 @@ data_month <- data %>%
   ) %>% 
   filter(wing!= "Other" & wing != "New_Parties")
 
+flexplot(in_ideology_mentions~1, data_month) + 
+  labs(title = "In Ideology Mentions Distribution (Party/Months)")
+
+flexplot(out_ideology_mentions~1, data_month) + 
+  labs(title = "Out Ideology Mentions Distribution (Party/Months)")
+
+df_desc <- 
+  data_month %>%
+  dplyr::select(year,
+       government,
+       lag_quarterly_inflation,
+       monthly_word_count,
+       lag_public_left,
+       lag_public_right,
+       lag_public_opinion,
+       election_period,
+       left_mentions,
+      right_mentions,
+      in_ideology_mentions,
+      out_ideology_mentions
+    ) %>%
+  as.data.frame()
+
+stargazer(df_desc,
+          summary = T,
+          header = F,
+          iqr = F, median = T, min.max = T,
+          type = "latex",
+          title = "Descriptive statitics")
 
 
 data_month$right_wing <- ifelse(data_month$wing == "Right_Wing", 1,0) # binarize wing for visuals
